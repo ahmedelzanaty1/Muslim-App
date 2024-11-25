@@ -1,55 +1,64 @@
 package com.example.muslimapp.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.muslimapp.R
+import com.example.muslimapp.Models.Constants
+import com.example.muslimapp.adapters.QuranAdapter
+import com.example.muslimapp.databinding.FragmentQuranBinding
+import com.example.muslimapp.Data_Class.QuranData
+import com.example.muslimapp.Inter_face_callback.OnCharacterClick
+import com.example.muslimapp.SoraDetailsActivity
 
-/**
- * A simple [Fragment] subclass.
- * Use the [QuranFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class QuranFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(com.example.muslimapp.ARG_PARAM1)
-            param2 = it.getString(com.example.muslimapp.ARG_PARAM2)
-        }
-    }
+    lateinit var binding: FragmentQuranBinding
+    lateinit var adapter: QuranAdapter
+    lateinit var data: MutableList<QuranData>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quran, container, false)
+        binding = FragmentQuranBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment QuranFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            QuranFragment().apply {
-                arguments = Bundle().apply {
-                    putString(com.example.muslimapp.ARG_PARAM1, param1)
-                    putString(com.example.muslimapp.ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init(view)
+    }
+     fun init(view:View) {
+        val content = Constants.constants
+        val chapterdatalist = mutableListOf<QuranData>()
+        content.forEachIndexed { index, s ->
+            chapterdatalist.add(QuranData(s, index + 1))
+
+        }
+
+
+        adapter = QuranAdapter(chapterdatalist)
+         onclick()
+        binding.recyclerView.adapter = adapter
+
+
+    }
+    fun onclick(){
+        adapter.Onclick = object : OnCharacterClick {
+            override fun OnClickItem(itemview: QuranData, position: Int) {
+                val intent = Intent(requireContext(), SoraDetailsActivity::class.java)
+                intent.putExtra("title", itemview.soraName)
+                intent.putExtra("position", position)
+                startActivity(intent)
+
+
+            }
             }
     }
+
+
+
 }
