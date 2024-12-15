@@ -1,5 +1,6 @@
 package com.example.muslimapp
 
+import RadioFragment
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +9,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.muslimapp.databinding.ActivityHomeBinding
 import com.example.muslimapp.fragments.QuranFragment
-import com.example.muslimapp.fragments.RadioFragment
 import com.example.muslimapp.fragments.SebhaFragment
 import com.example.muslimapp.fragments.hadethFragment
 
